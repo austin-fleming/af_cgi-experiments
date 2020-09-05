@@ -1,0 +1,163 @@
+/* Styling */
+
+#preloader {
+    position: fixed;
+    z-index: 9999;
+    background: #1f1d1f;
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.animation_wrapper {
+    position: absolute;
+    display: flex;
+    align-items: center;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+
+    background: maroon;
+}
+
+.animation_wrapper .pre_circle_center {
+    /* position: absolute; */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: teal;
+}
+
+.animation_wrapper .pre_circle {
+    /* position: absolute; */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: teal;
+    /* animation: stride 1.3s ease-in-out infinite; */
+    /* transform: translate(-100px, 0px); */
+}
+
+@keyframes stride {
+    0% {transform: translate(0px, 0px)}
+    25% {transform: translate(-100px, 0px)}
+    50% {transform: translate(0px, 0px)}
+    75% {transform: translate(100px, 0px)}
+    100% {transform: translate(0px, 0px)}
+}
+
+
+/* .animation_wrapper .triangle_up {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid white;
+} */
+
+.animation_wrapper .triangle.tri_01 {
+    /* triangle up https://css-tricks.com/the-shapes-of-css/*/
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid #bababa;
+    filter: drop-shadow(0 0 30px #111);
+
+    position: absolute;
+
+    transform: scale(6, .8) skew(23deg);
+    /* animation: tri_warp_01 8s linear infinite; */
+}
+
+.animation_wrapper .triangle.tri_02 {
+    /* triangle top left */
+    width: 0;
+    height: 0;
+    border-top: 100px solid #bababa;
+    border-right: 100px solid transparent;
+    filter: drop-shadow(0 0 30px #111);
+
+    position: absolute;
+
+    transform: scale(4, .8) skew(40deg);
+    /* animation: tri_warp_02 3s linear infinite; */
+}
+
+.animation_wrapper .triangle.tri_03 {
+    /* triangle top right */
+    width: 0;
+    height: 0;
+    border-top: 100px solid #bababa;
+    border-left: 100px solid transparent;
+    filter: drop-shadow(0 0 30px #111);
+
+    position: absolute;
+
+    transform: scale(3, 2);
+    /* animation: tri_warp_03 3s linear infinite; */
+    animation: simple_rotate 3s linear infinite;
+}
+
+.animation_wrapper .triangle.tri_04 {
+    /* triangle top right */
+    width: 0;
+    height: 0;
+    border-top: 100px solid #bababa;
+    border-left: 100px solid transparent;
+    filter: drop-shadow(0 0 30px #111);
+
+    position: absolute;
+
+    transform: scale(2, .3);
+    /* animation: tri_warp_03 3s linear infinite; */
+}
+
+.animation_wrapper .triangle.tri_05 {
+    /* triangle top right */
+    width: 0;
+    height: 0;
+    border-top: 100px solid #bababa;
+    border-left: 100px solid transparent;
+    filter: drop-shadow(0 0 30px #111);
+
+    position: absolute;
+
+    transform: scale(.8, 7);
+    /* animation: tri_warp_03 3s linear infinite; */
+}
+
+
+@keyframes simple_rotate {
+    0% {transform: rotate(0deg)}
+    100% {transform: rotate(360deg)}
+}
+
+@keyframes tri_warp_01 {
+    0% {transform: rotate(0deg) scale(4, 1) ;}
+    25% {transform: rotate(90deg) scale(1, 4);}
+    50% {transform: rotate(180deg) scale(4, 1);}
+    75% {transform: rotate(270deg) scale(1, 4);}
+    100% {transform: rotate(360deg) scale(4, 1);}
+}
+
+@keyframes tri_warp_02 {
+    0% {transform: rotate(0deg) scale(2, .5);}
+    25% {transform: rotate(90deg) scale(.5, 2);}
+    50% {transform: rotate(180deg) scale(2, .5);}
+    75% {transform: rotate(270deg) scale(.5, 2);}
+    100% {transform: rotate(360deg) scale(2, .5);}
+}
+
+@keyframes tri_warp_03 {
+    0% {transform: rotate(0deg) scale(3, .75);}
+    25% {transform: rotate(90deg) scale(.75, 3);}
+    50% {transform: rotate(180deg) scale(3, .75);}
+    75% {transform: rotate(270deg) scale(.75, 3);}
+    100% {transform: rotate(360deg) scale(3, .75);}
+}
