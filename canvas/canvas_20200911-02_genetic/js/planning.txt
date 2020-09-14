@@ -1,0 +1,24 @@
+
+outline:
+    generation = 0;
+    population[generation] = initializePopulation(populationSize); 
+    evaluatePopulation(population[generation]);
+    While isTerminationConditionMet() == false do 
+        parents = selectParents(population[generation]); 
+        population[generation+1] = crossover(parents); 
+        population[generation+1] = mutate(population[generation+1]);
+        evaluatePopulation(population[generation]);
+        generation++;
+    End loop;
+
+
+Fitness:
+    - how close in total
+    - sum of each segment's score where point b got closer than point a
+
+
+organism (trajectory list):
+    - 40 line segments totaling max of 30% farther than target
+    - segment is dx/dy
+        pt01   pt02   pt03
+        [x,y], [x,y], [x,y]
