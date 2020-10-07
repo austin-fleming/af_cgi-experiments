@@ -1,0 +1,37 @@
+# Rhino
+newmtl Gravel
+Ka 0.0000 0.0000 0.0000
+Kd 1.0000 1.0000 1.0000
+Ks 1.0000 1.0000 1.0000
+Tf 0.0000 0.0000 0.0000
+d 1.0000
+Ns 0
+map_Kd Gravel.png
+map_Bump Gravel_bump.png
+
+newmtl Copper
+Ka 0.0000 0.0000 0.0000
+Kd 0.9098 0.6118 0.5059
+Ks 0.9098 0.6118 0.5059
+Tf 0.0000 0.0000 0.0000
+d 1.0000
+Ns 25.5
+
+newmtl Marble
+Ka 0.0000 0.0000 0.0000
+Kd 1.0000 1.0000 1.0000
+Ks 1.0000 1.0000 1.0000
+Tf 0.0000 0.0000 0.0000
+d 1.0000
+Ns 0
+map_Kd Marble.png
+
+newmtl Water Rippled
+Ka 0.0000 0.0000 0.0000
+Kd 0.9765 0.9961 1.0000
+Ks 1.0000 1.0000 1.0000
+Tf 0.0000 0.0000 0.0000
+d 0.1500
+Ns 229.6
+map_Bump Water_bump.png
+
