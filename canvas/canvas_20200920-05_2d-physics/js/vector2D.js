@@ -129,6 +129,7 @@ const rotateVector2D = (degrees, vector, normalize = true) => {
     return getVector2D(resultX, resultY)
 }
 
+// faster alternative to rotateVector2D
 const rotateVector2D90Deg = (vector) => {
     const resultX = vector.y * -1
     const resultY = vector.x
@@ -153,8 +154,8 @@ const getLine2D = (baseVector, directionVector) =>
 
 const getLineSegment2D = (pointA, pointB) =>
     Object.freeze({
-        p1: { ...pointA },
-        p2: { ...pointB },
+        pt1: { ...pointA },
+        pt2: { ...pointB },
     })
 
 const getCircle2D = (center, radius) =>
@@ -222,6 +223,11 @@ const checkVectorsParallel = (vectorA, vectorB) => {
 const checkEqualVectors = (vectorA, vectorB) =>
     floatsAreEqual(vectorA.x - vectorB.x + (vectorA.y - vectorB.y), 0)
 
+// While equal lines have identical base and direction vectors,
+// equivalent have parallel directions and base along the same line.
+// A) the lines must be parallel
+// B) the base point of one line must exist on the other line.
+// This can be determined by if the distance vector between base points is parallel to the lines
 const checkEquivalentLines = (lineA, lineB) => {
     if (!checkVectorsParallel(lineA.direction, lineB.direction)) {
         return false
@@ -235,11 +241,72 @@ const checkEquivalentLines = (lineA, lineB) => {
     }
 }
 
+// if lines are not parallel, they collide. Equivalent lines count as collisions
 const checkCollisionLineLine = (lineA, lineB) => {
     if (checkVectorsParallel(lineA.direction, b.direction)) {
         return checkEquivalentLines(lineA, lineB)
     } else {
         return true
+    }
+}
+
+// determines if a line segment is completely on one side of an axis line
+// if both dot products are (-) or (+), the line is totally on one side of the axis;
+// mixed signs means it crosses. 0 means it is on the axis.
+const onOneSide = (axisLine, segment) => {
+    const d1 = subtractVector2D(segment.pt1, axisLine.base)
+    const d2 = subtractVector2D(segment.pt2, axisLine.base)
+    const n = rotateVector2D90Deg(axisLine.direction)
+    const isOnOneSide = getDotProduct(n, d1) * getDotProduct(n, d2) > 0
+    return isOnOneSide
+}
+
+const createRange = (min, max) => Object.freeze({ min: min, max: max })
+
+const sortRange = (range) => {
+    if (range.min > range.max) {
+        return createRange(range.max, range.min)
+    } else {
+        return range
+    }
+}
+
+const projectSegment = (lineSegment, baseVector) => {
+    const baseUnitVector = getUnitVector(baseVector)
+    const range = createRange(
+        getDotProduct(baseUnitVector, lineSegment.pt1),
+        getDotProduct(baseUnitVector, lineSegment.pt2)
+    )
+    return sortRange(range)
+}
+
+const checkRangesOverlap = (rangeA, rangeB) =>
+    checkOverlap(rangeA.min, rangeA.max, rangeB.min, rangeB.max)
+
+// Utilizes serparate axis theorem
+const checkCollisionSegmentSegment = (segmentA, segmentB) => {
+    const axisA = getLine2D(
+        segmentA.pt1,
+        subtractVector2D(segmentA.pt2, segmentA.pt1)
+    )
+    if (onOneSide(axisA, segmentB)) {
+        return false
+    } else {
+        const axisB = getLine2D(
+            segmentB.pt1,
+            subtractVector2D(segmentB.pt2, segmentB.pt1)
+        )
+        if (onOneSide(axisB, segmentA)) {
+            return false
+        } else {
+            if (checkVectorsParallel(axisA.direction, axisB.direction)) {
+                const rangeA = projectSegment(segmentA, axisA.direction)
+                const rangeB = projectSegment(segmentB, axisA.direction)
+                return checkRangesOverlap(rangeA, rangeB)
+            } else {
+                return true
+            }
+        }
     }
 }
 
@@ -252,3 +319,11 @@ inspect(getAngleFromDot(testA, testB))
 inspect(projectVector2D(testA, testB))
 inspect(getLine2D(testA, testB))
 inspect(rotateVector2D90Deg(testA))
+
+const a = getVector2D(0, 0)
+const b = getVector2D(100, 100)
+const c = getVector2D(100, 100)
+const d = getVector2D(0, 0)
+const segA = getLineSegment2D(a, b)
+const segB = getLineSegment2D(c, d)
+inspect(checkCollisionSegmentSegment(segA, segB))
