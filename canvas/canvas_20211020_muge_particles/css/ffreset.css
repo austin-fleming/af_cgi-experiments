@@ -1,0 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* Hide potential scroll bars */
+    overflow-x: hidden;
+    /* 
+    Setting color on background instead of canvas allows for using
+    liquid or distortion svg filters without interference.
+    */
+    background-color: #000;
+}

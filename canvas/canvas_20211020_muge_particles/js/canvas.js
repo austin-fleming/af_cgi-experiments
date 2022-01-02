@@ -41,7 +41,7 @@ window.addEventListener('mousemove', event => {
 drawWord();
 
 
-const textCoordinates = Ctx.getImageData(0, 0, 180, 180);
+const textCoordinates = Ctx.getImageData(0, 0, 1000, 600);
 
 
 
@@ -64,18 +64,33 @@ class Particle {
         this._forceMultiplier = config.particle.forceFactor;
     }
     draw () {
-        let rand = Math.random();
-        let randDistort = rand *config.particle.distortion;
+        /* let rand = Math.random(); */
+        /* let randDistort = rand * config.particle.distortion; */
         
-        if (Math.abs(this.y - this.baseY) > randDistort) {
+        
+        /* if (Math.abs(this.y - this.baseY) > randDistort) {
             this._currColor = this._baseColor;
         } else {
             this._currColor = this._setRandColor(rand);
-        }
-
+        } 
+        
         Ctx.fillStyle = this._currColor;
         Ctx.beginPath();
         Ctx.arc(this.x + randDistort, this.y, this.size, 0, Math.PI * 2);
+        Ctx.closePath();
+        Ctx.fill();
+        
+        */
+
+        /* if (Math.abs(this.y - this.baseY) > config.particle.distortion) {
+            this._currColor = this._baseColor;
+        } else {
+            this._currColor = this._setRandColor(Math.random());
+        } */
+
+        Ctx.fillStyle = this._currColor;
+        Ctx.beginPath();
+        Ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         Ctx.closePath();
         Ctx.fill();
     }
@@ -117,10 +132,9 @@ class Particle {
 // uses image data to generate particles for only the opaque pixels (why background must be transparent).
 // TODO: find a way to center text.
 function initParticle() {
-    const SIZE_MULTIPLIER = 8; // increases size and spacing
     // Allows adjusting final position of text.
-    const X_OFFSET = 250;
-    const Y_OFFSET = 0;
+    const X_OFFSET = config.font.xOffset;
+    const Y_OFFSET = config.font.yOffset;
     let x2 = textCoordinates.width;
     let y2 = textCoordinates.height;
     for (let y = 0; y < y2; y++) {
@@ -128,8 +142,8 @@ function initParticle() {
             // reads Uint8ClampedArray. 255 is full opacity. 128 is half opacity.
             // every 4th pixel holds transparency value
             if (textCoordinates.data[y * (4 * textCoordinates.width) + (x * 4) + 3] > 0) {
-                let positionX = x * SIZE_MULTIPLIER + X_OFFSET;
-                let positionY = y * SIZE_MULTIPLIER + Y_OFFSET;
+                let positionX = x * config.font.sizeMultiplier + X_OFFSET;
+                let positionY = y * config.font.sizeMultiplier + Y_OFFSET;
                 particleArray.push(new Particle(positionX, positionY));
                 
             } 
@@ -169,7 +183,6 @@ function setCanvasSize () {
 function drawWord() {
     Ctx.fillStyle = config.font.color;
     Ctx.font = config.font.style;
-    Ctx.fillText(config.font.text, 0, 40);
-    Ctx.fillText('', 0, 80);
+    Ctx.fillText(config.font.text, 30, 60);
     Ctx.closePath();
 }
